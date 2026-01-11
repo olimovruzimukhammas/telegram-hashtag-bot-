@@ -1,0 +1,33 @@
+import asyncio
+import os
+from aiogram import Bot, Dispatcher
+from aiogram.types import Message
+from aiogram.filters import CommandStart
+
+TOKEN = os.getenv("8295729813:AAH97bHhTknUvgQo3oEOcXYcp8M7VxD8TeA")
+
+bot = Bot(token=TOKEN)
+dp = Dispatcher()
+
+POSTS = {
+    "huquq": "https://t.me/olimovlaw/123",
+    "jinoyat": "https://t.me/olimovlaw/456",
+}
+
+@dp.message(CommandStart())
+async def start(message: Message):
+    await message.answer(" Men tirikman, savol beravering:")
+
+@dp.message()
+async def handle(message: Message):
+    key = message.text.lower().strip()
+    if key in POSTS:
+        await message.answer(POSTS[key])
+    else:
+        await message.answer("Topilmadi.")
+
+async def main():
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
